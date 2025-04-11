@@ -44,10 +44,12 @@ const Articles = ({
   useEffect(() => {
     if (wrap && !showAll) {
       innerWidth > 800 ? setItemsPerPage(10) : setItemsPerPage(8);
+    } else if (title === "New Videos") {
+      setItemsPerPage(8);
     } else {
       innerWidth > 800 ? setItemsPerPage(12) : setItemsPerPage(6);
     }
-  }, [showAll, wrap]);
+  }, [showAll, wrap, title]);
 
   const totalPages = Math.ceil(articles.length / itemsPerPage);
   const paginatedArticles = articles.slice(
