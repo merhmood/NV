@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { ArticleType } from "@/types";
+import { CDN_URL } from "@/url";
 
 const ArticleItem = ({ article }: { article: ArticleType }) => {
   return (
@@ -14,7 +14,7 @@ const ArticleItem = ({ article }: { article: ArticleType }) => {
           {navigator.onLine && (
             <Image
               alt={article.title}
-              src={article.thumbnail}
+              src={`${CDN_URL}/${article.thumbnail}`}
               fill
               className={`rounded-md ${
                 article.type === "landscape" ? "object-cover" : "object-contain"

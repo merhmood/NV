@@ -9,6 +9,7 @@ import fluidPlayer from "fluid-player";
 import ArticleItem from "./ArticleItem";
 import BannerAds from "./BannerAds";
 import Loader from "./Loader";
+import { CDN_URL } from "@/url";
 
 const Article = () => {
   const id = usePathname().split("/")[2]; // extracts article id from url path;
@@ -31,7 +32,7 @@ const Article = () => {
   }, [id]);
 
   return article ? (
-    <section className="flex flex-col-reverse h-fit lg:gap-10 lg:flex-row lg:justify-between mt-32">
+    <section className="flex flex-col-reverse h-fit lg:gap-10 lg:flex-row lg:justify-between mt-36 lg:mt-32">
       <div className="basis-4/5">
         <Suspense fallback={<div className="my-10">Loading Article</div>}>
           <h2 className="mt-2 lg:mb-2 text-base lg:text-2xl font-semibold">
@@ -53,7 +54,7 @@ const Article = () => {
             {article && (
               <video ref={self} className="w-full">
                 <source
-                  src={article.video}
+                  src={`${CDN_URL}/${article.video}`}
                   data-fluid-hd
                   title={article.title}
                   type="video/mp4"
@@ -114,7 +115,7 @@ function videoPlayerSetup(
       player = fluidPlayer(self.current, {
         layoutControls: {
           primaryColor: "#ff99f3",
-          posterImage: article?.thumbnail,
+          posterImage: `${CDN_URL}/${article?.thumbnail}`,
         },
         vastOptions: {
           adList: [
