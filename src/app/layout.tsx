@@ -7,6 +7,8 @@ import { satoshi } from "@/utils/font";
 import PopUnderAds from "@/components/PopUnderAds";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import VideoSliderAds from "@/components/VideoSliderAds";
+import InstantMessageAds from "@/components/InstantMessageAds";
 
 export const metadata: Metadata = {
   title: "Nutty Vibes",
@@ -45,6 +47,8 @@ export default function RootLayout({
           </div>
           <Footer />
           <PopUnderAds />
+          <VideoSliderAds />
+          <InstantMessageAds />
         </Suspense>
       </body>
       <GoogleAnalytics gaId="G-796EYQTS8W" />
