@@ -34,7 +34,7 @@ const Navigation: React.FC = () => {
     searchValue.trim().replaceAll(" ", "+");
 
   return (
-    <header className="bg-[#181717a1] backdrop-blur-lg fixed top-0 w-full z-10 pb-2">
+    <header className="bg-[#181717a1] backdrop-blur-lg sticky top-0 w-full z-10 pb-2">
       <section className="flex flex-col items-center lg:flex-row lg:justify-between lg:items-center mt-7 pb-2 lg:pb-3 mx-auto max-w-6xl">
         <div className="flex items-center">
           <div className="relative h-12 w-12 lg:h-14 lg:w-14 justify-center">

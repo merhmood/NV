@@ -1,59 +1,50 @@
 "use client";
 
+import WebApp from "@twa-dev/sdk";
 import React, { useEffect, useState } from "react";
-import Articles from "@/components/Articles";
 
-import type { ArticleType } from "@/types";
-import BannerAds from "@/components/BannerAds";
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  languageCode: string;
+  isPremium: boolean;
+}
 
 export default function Page() {
-  const [finishLoading, setFinishLoading] = useState(false);
-  const [articles, setArticles] = useState<Array<ArticleType>>([]);
-  const [innerWidth, setInnerWidth] = useState<number | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Fetch data and set them in reverse order, also handles
-    // rendering the first set of articles to the screen
-    (async () => {
-      const data = await fetch("/data.json");
-      const response: { articles: [] } = await data.json();
-      setArticles(response.articles);
-      setFinishLoading(true);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setInnerWidth(window.innerWidth);
-
-      const handleResize = () => setInnerWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-
-      return () => window.removeEventListener("resize", handleResize);
+    if (WebApp.initDataUnsafe.user) {
+      setUser({
+        firstName: WebApp.initDataUnsafe.user.first_name,
+        id: WebApp.initDataUnsafe.user.id,
+        isPremium: WebApp.initDataUnsafe.user.is_premium,
+        languageCode: WebApp.initDataUnsafe.user.language_code,
+        lastName: WebApp.initDataUnsafe.user.last_name,
+        userName: WebApp.initDataUnsafe.user.username,
+      } as User);
     }
   }, []);
-
-  const splitedArticles = [...articles];
-  splitedArticles.splice(-10);
-
   return (
-    <main>
-      <div className="mt-36 lg:mt-32"></div>
-      <BannerAds />
-      <div className="mt-6"></div>
-      <Articles
-        articles={[...articles].reverse().slice(0, 10)}
-        title="New Videos"
-        showLoader
-        finishLoading={finishLoading}
-      />
-      <Articles
-        articles={splitedArticles.sort((a, b) => 0.5 - Math.random())}
-        ads={innerWidth && innerWidth < 800 ? 6 : 8}
-        title="More videos"
-        finishLoading={finishLoading}
-        wrap
-      />
+    <main className="text-white">
+      <div className="flex flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold mb-4">Welcome to the TWA App</h1>
+        {user ? (
+          <div className="text-center mb-4">
+            <p>
+              User: ID-{user.id}, First Name-
+              {user.firstName}, Last Name-{user.lastName}, premium-
+              {user.isPremium ? "Yes" : "No"}, language code-
+              {user.languageCode}
+            </p>
+            <p>Chat ID: {user.id}</p>
+          </div>
+        ) : (
+          <p className="text-gray-500">Loading User and Chat details</p>
+        )}
+      </div>
     </main>
   );
 }

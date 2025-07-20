@@ -9,6 +9,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import VideoSliderAds from "@/components/VideoSliderAds";
 import InstantMessageAds from "@/components/InstantMessageAds";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Nutty Vibes",
@@ -32,10 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta
-          name="6a97888e-site-verification"
-          content="d88d33993212a1703ace3c137f5a2eb8"
-        ></meta>
+        <Script
+          src="https://telegram.org/js/telegram-web-app.js"
+          strategy="beforeInteractive"
+        ></Script>
       </head>
       <body
         className={`${satoshi.className} w-full  text-white flex flex-col justify-between h-screen`}

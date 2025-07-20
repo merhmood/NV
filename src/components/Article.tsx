@@ -4,7 +4,7 @@ import React, { Suspense, useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 import { ArticleType } from "@/types";
-import jaccardSimilarity from "@/utils/jaccardSimilarity";
+import jaccardSimilarity from "@/utils/jaccardSimiliarity";
 import fluidPlayer from "fluid-player";
 import ArticleItem from "./ArticleItem";
 import BannerAds from "./BannerAds";
