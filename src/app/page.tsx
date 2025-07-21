@@ -1,6 +1,7 @@
 "use client";
 
 import WebApp from "@twa-dev/sdk";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface User {
@@ -29,21 +30,41 @@ export default function Page() {
   }, []);
   return (
     <main className="text-white">
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold mb-4">Welcome to the TWA App</h1>
-        {user ? (
-          <div className="text-center mb-4">
-            <p>
-              User: ID-{user.id}, First Name-
-              {user.firstName}, Last Name-{user.lastName}, premium-
-              {user.isPremium ? "Yes" : "No"}, language code-
-              {user.languageCode}
-            </p>
-            <p>Chat ID: {user.id}</p>
+      <div>
+        <h1 className="text-xl mb-4 mt-2">
+          Welcome {user ? user.firstName : ""}
+        </h1>
+        <div className="flex justify-between text-lg border border-gray-600 p-6 mb-4 rounded-lg backdrop-blur-md bg-gray-200/5">
+          <div>
+            Coin balance:{" "}
+            <span className="text-yellow-400 block text-5xl mt-2">1000</span>
           </div>
-        ) : (
-          <p className="text-gray-500">Loading User and Chat details</p>
-        )}
+          <div className="flex flex-col-reverse">
+            <div className="relative h-8 w-8 lg:h-14 lg:w-14 justify-center">
+              <Image src="/coin.png" alt="coin" fill />
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-between text-lg border border-gray-600 p-6 mb-4 rounded-lg backdrop-blur-md bg-gray-200/5">
+          <div>
+            Gem balance:{" "}
+            <span className="text-purple-400 block text-5xl mt-2">20</span>
+          </div>
+          <div className="flex flex-col-reverse">
+            <div className="relative h-8 w-8 lg:h-14 lg:w-14 justify-center">
+              <Image src="/gem.png" alt="coin" fill />
+            </div>
+          </div>
+        </div>
+        <div>
+          <button className="w-full text-lg border border-green-500 p-3 mb-4 rounded-lg backdrop-blur-md bg-green-600/30">
+            Top Up
+          </button>
+          <p className="mt-1 font-light text-sm">
+            Note: You can only <span className="font-bold">Top Up</span> Coins
+            with Ads.
+          </p>
+        </div>
       </div>
     </main>
   );
