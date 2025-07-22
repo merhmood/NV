@@ -34,10 +34,12 @@ export default function Page() {
         <h1 className="text-xl mb-4 mt-2">
           Welcome {user ? user.firstName : ""}
         </h1>
-        <div className="flex justify-between text-lg border border-gray-600 p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray">
+        <div className="flex justify-between text-lg border border-gray-400 p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
           <div>
             Coin balance:{" "}
-            <span className="text-yellow-400 block text-5xl mt-2">1000</span>
+            <span className="text-yellow-400 block text-5xl mt-2 font-medium">
+              1000
+            </span>
           </div>
           <div className="flex flex-col-reverse">
             <div className="relative h-8 w-8 lg:h-14 lg:w-14 justify-center">
@@ -45,10 +47,12 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between text-lg border border-gray-600 p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray">
+        <div className="flex justify-between text-lg border border-gray-500 p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
           <div>
             Gem balance:{" "}
-            <span className="text-purple-400 block text-5xl mt-2">20</span>
+            <span className="text-purple-500 block text-5xl mt-2 font-medium">
+              20
+            </span>
           </div>
           <div className="flex flex-col-reverse">
             <div className="relative h-8 w-8 lg:h-14 lg:w-14 justify-center">
