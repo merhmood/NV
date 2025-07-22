@@ -34,7 +34,7 @@ export default function Page() {
         <h1 className="text-xl mb-4 mt-2">
           Welcome {user ? user.firstName : ""}
         </h1>
-        <div className="flex justify-between text-lg border border-gray-400 p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
+        <div className="flex justify-between text-lg border border-[#ac3fa3] p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
           <div>
             Coin balance:{" "}
             <span className="text-yellow-400 block text-5xl mt-2 font-medium">
@@ -47,7 +47,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between text-lg border border-gray-500 p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
+        <div className="flex justify-between text-lg border border-[#ac3fa3] p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
           <div>
             Gem balance:{" "}
             <span className="text-purple-500 block text-5xl mt-2 font-medium">
@@ -60,11 +60,14 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div>
-          <button className="w-full text-lg border border-green-500 p-1.5 rounded-lg backdrop-blur-md bg-green-600/30 mb-1 mt-4">
+        <div className="mt-2">
+          <button className="flex justify-center items-center mt-3 border border-green-600 bg-white text-black w-full py-2 rounded-lg font-medium">
             Top Up
+            {/* <span className="block relative w-6 h-6 ml-2">
+              <Image src="/gems-top-up.png" alt="coins top up" fill />
+            </span> */}
           </button>
-          <p className="mt-1 font-light text-sm">
+          <p className="mt-2 font-light text-sm">
             Note: You can only <span className="font-bold">Top Up</span> Coins
             with Ads.
           </p>

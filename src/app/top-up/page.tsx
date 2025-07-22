@@ -8,7 +8,7 @@ export default function TopUp() {
       <div className="bg-[#ac3fa3] rounded-lg p-4 mt-4">
         <div>
           <h2 className="font-bold text-2xl">Earn Coins</h2>
-          <p className="text-sm">Ads resets UTC-8</p>
+          <p className="text-sm">Ads resets at 00:00</p>
         </div>
         <button className="mt-3 bg-white text-black w-full py-2 rounded-lg font-bold">
           Watch Ad (0/15)
