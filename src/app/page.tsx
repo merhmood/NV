@@ -47,30 +47,22 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between text-lg border border-[#ac3fa3] p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
+        <div className="bg-[#ac3fa3] rounded-lg p-4 mt-4">
           <div>
-            Gem balance:{" "}
-            <span className="text-purple-500 block text-5xl mt-2 font-medium">
-              20
-            </span>
+            <h2 className="font-bold text-lg">Earn 10 coins reward</h2>
+            <p className="text-sm">Ads resets at 00:00</p>
           </div>
-          <div className="flex flex-col-reverse">
-            <div className="relative h-8 w-8 lg:h-14 lg:w-14 justify-center">
-              <Image src="/gem.png" alt="coin" fill />
-            </div>
-          </div>
-        </div>
-        <div className="mt-2">
-          <button className="flex justify-center items-center mt-3 border border-green-600 bg-white text-black w-full py-2 rounded-lg font-medium">
-            Top Up
-            {/* <span className="block relative w-6 h-6 ml-2">
-              <Image src="/gems-top-up.png" alt="coins top up" fill />
-            </span> */}
+          <button className="mt-3 bg-white text-black w-full py-2 rounded-lg font-bold">
+            Watch Ad (0/10)
           </button>
-          <p className="mt-2 font-light text-sm">
-            Note: You can only <span className="font-bold">Top Up</span> Coins
-            with Ads.
-          </p>
+        </div>
+        <div>
+          <button className="flex justify-center items-center mt-3 border border-yellow-600 bg-white text-black w-full py-2 rounded-lg font-medium">
+            Buy Coins{" "}
+            <span className="block relative w-6 h-6 ml-2">
+              <Image src="/coins-top-up.png" alt="coins top up" fill />
+            </span>
+          </button>
         </div>
       </div>
     </main>
