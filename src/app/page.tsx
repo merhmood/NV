@@ -53,7 +53,9 @@ export default function Page() {
         </div>
         <div className="bg-[#ac3fa3] rounded-lg p-4 mt-4">
           <div>
-            <h2 className="font-bold text-lg">Earn 10 coins reward</h2>
+            <h2 className="font-bold text-lg">
+              Earn <span className="text-yellow-400">10</span> coins reward
+            </h2>
             <p className="text-sm">Ads resets at 00:00</p>
           </div>
           <button className="mt-3 bg-white text-black w-full py-2 rounded-lg font-bold">
@@ -72,9 +74,9 @@ export default function Page() {
           </button>
         </div>
         <TransactionHistory />
-        <div className="flex text-sm mt-4 gap-2 text-gray-400">
-          <Link href="#">refund policy</Link>
-          <Link href="#">terms of use</Link>
+        <div className="fixed bottom-4 flex text-sm mt-4 gap-4 text-gray-400">
+          <Link href="#">Refund policy</Link>
+          <Link href="#">Terms of use</Link>
         </div>
         <CoinSale open={openCoinSale} setOpen={setOpenCoinSale} />
       </div>
