@@ -1,7 +1,10 @@
 "use client";
 
+import CoinSale from "@/components/CoinSale";
+import TransactionHistory from "@/components/TransactionHistory";
 import WebApp from "@twa-dev/sdk";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface User {
@@ -15,6 +18,7 @@ interface User {
 
 export default function Page() {
   const [user, setUser] = useState<User | null>(null);
+  const [openCoinSale, setOpenCoinSale] = useState(false);
 
   useEffect(() => {
     if (WebApp.initDataUnsafe.user) {
@@ -57,13 +61,22 @@ export default function Page() {
           </button>
         </div>
         <div>
-          <button className="flex justify-center items-center mt-3 border border-yellow-600 bg-white text-black w-full py-2 rounded-lg font-medium">
+          <button
+            onClick={() => setOpenCoinSale(true)}
+            className="flex justify-center items-center mt-3 border border-yellow-400 bg-white text-black w-full py-2 rounded-lg font-medium"
+          >
             Buy Coins{" "}
             <span className="block relative w-6 h-6 ml-2">
               <Image src="/coins-top-up.png" alt="coins top up" fill />
             </span>
           </button>
         </div>
+        <TransactionHistory />
+        <div className="flex text-sm mt-4 gap-2 text-gray-400">
+          <Link href="#">refund policy</Link>
+          <Link href="#">terms of use</Link>
+        </div>
+        <CoinSale open={openCoinSale} setOpen={setOpenCoinSale} />
       </div>
     </main>
   );

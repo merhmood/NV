@@ -4,6 +4,12 @@
 
 @import "~fluid-player/src/css/fluidplayer.css";
 
+:root {
+  --rsbs-bg: #242424;
+  --rsbs-handle-bg: #ffffff88;
+  --rsbs-overlay-rounded: 32px;
+}
+
 .article-scroll::-webkit-scrollbar {
   display: none;
 }
