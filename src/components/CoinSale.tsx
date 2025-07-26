@@ -45,13 +45,13 @@ const CoinSale = ({
       } as User);
     }
   }, []);
-  const handleBuy = async (amount: number) => {
+  const handleBuy = async (amount: number, star: number, price: number) => {
     const payload = `mini_${Date.now()}_${user?.id}`;
     const res = axios.post("http://localhost:4000/invoice-link", {
       payload,
-      amount,
-      title: "MiniApp Item",
-      description: "With Stars",
+      amount: star,
+      title: `${amount} coins for $${price}`,
+      description: "Star purchase for Nutt and Vibes app coins",
     });
     const { invoiceLink } = (await res).data;
     console.log(invoiceLink);
@@ -74,7 +74,7 @@ const CoinSale = ({
                 key={coin.amount}
                 amount={coin.amount}
                 price={coin.price}
-                onBuy={() => handleBuy(coin.star)}
+                onBuy={() => handleBuy(coin.amount, coin.star, coin.price)}
               />
             ))}
           </div>

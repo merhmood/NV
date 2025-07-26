@@ -1,11 +1,15 @@
 "use client";
 
-import CoinSale from "@/components/CoinSale";
-import TransactionHistory from "@/components/TransactionHistory";
 import WebApp from "@twa-dev/sdk";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import createAdHandler from "monetag-tg-sdk";
+
+import CoinSale from "@/components/CoinSale";
+import TransactionHistory from "@/components/TransactionHistory";
+
+const showAd = createAdHandler(9607234);
 
 interface User {
   id: number;
@@ -58,7 +62,14 @@ export default function Page() {
             </h2>
             <p className="text-sm">Ads resets at 00:00</p>
           </div>
-          <button className="mt-3 bg-white text-black w-full py-2 rounded-lg font-bold">
+          <button
+            onClick={() =>
+              showAd().then(() => {
+                console.log("ad shown");
+              })
+            }
+            className="mt-3 bg-white text-black w-full py-2 rounded-lg font-bold"
+          >
             Watch Ad (0/10)
           </button>
         </div>

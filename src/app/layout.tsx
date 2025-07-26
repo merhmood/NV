@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import "./globals.css";
 
 import { satoshi } from "@/utils/font";
@@ -33,6 +34,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <head>
+        
+        <Script
+          src="//libtl.com/sdk.js"
+          data-zone="9607234"
+          data-sdk="show_9607234"
+          strategy="afterInteractive"
+        />
+      </head> */}
       <body className={`${satoshi.className}`}>
         <Suspense>
           <TWAWrapper>
