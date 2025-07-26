@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState, useEffect, SetStateAction } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import WebApp from "@twa-dev/sdk";
+import { openInvoice, initData } from "@telegram-apps/sdk-react";
 
 // if setting up the CSS is tricky, you can add this to your page somewhere:
 // <link rel="stylesheet" href="https://unpkg.com/react-spring-bottom-sheet/dist/style.css" crossorigin="anonymous">
@@ -34,14 +34,15 @@ const CoinSale = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
+    const user = initData?.user();
+    if (user) {
       setUser({
-        firstName: WebApp.initDataUnsafe.user.first_name,
-        id: WebApp.initDataUnsafe.user.id,
-        isPremium: WebApp.initDataUnsafe.user.is_premium,
-        languageCode: WebApp.initDataUnsafe.user.language_code,
-        lastName: WebApp.initDataUnsafe.user.last_name,
-        userName: WebApp.initDataUnsafe.user.username,
+        firstName: user.first_name,
+        id: user.id,
+        isPremium: user.is_premium,
+        languageCode: user.language_code,
+        lastName: user.last_name,
+        userName: user.username,
       } as User);
     }
   }, []);
@@ -55,7 +56,7 @@ const CoinSale = ({
     });
     const { invoiceLink } = (await res).data;
     console.log(invoiceLink);
-    WebApp.openTelegramLink(invoiceLink);
+    openInvoice(invoiceLink, "url");
   };
   return (
     <>

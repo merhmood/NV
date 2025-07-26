@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next/third-parties": "^15.3.0",
+    "@telegram-apps/sdk-react": "^3.3.6",
     "@twa-dev/sdk": "^8.0.2",
     "axios": "^1.11.0",
     "fluid-player": "^3.0.0",

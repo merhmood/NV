@@ -1,15 +1,17 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import createAdHandler from "monetag-tg-sdk";
+import dynamic from "next/dynamic";
 
 import CoinSale from "@/components/CoinSale";
 import TransactionHistory from "@/components/TransactionHistory";
 
-const showAd = createAdHandler(9607234);
+const RewardedAds = dynamic(() => import("@/components/RewardedAds"), {
+  ssr: false,
+});
 
 interface User {
   id: number;
@@ -55,24 +57,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="bg-[#ac3fa3] rounded-lg p-4 mt-4">
-          <div>
-            <h2 className="font-bold text-lg">
-              Earn <span className="text-yellow-400">10</span> coins reward
-            </h2>
-            <p className="text-sm">Ads resets at 00:00</p>
-          </div>
-          <button
-            onClick={() =>
-              showAd().then(() => {
-                console.log("ad shown");
-              })
-            }
-            className="mt-3 bg-white text-black w-full py-2 rounded-lg font-bold"
-          >
-            Watch Ad (0/10)
-          </button>
-        </div>
+        <RewardedAds />
         <div>
           <button
             onClick={() => setOpenCoinSale(true)}
