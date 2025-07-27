@@ -3,14 +3,14 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { ArticleType, Props } from "@/types";
 
 import Article from "@/components/Article";
-import { BASE_URL } from "@/url";
+import { API_URL } from "@/url";
 
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
-  const data = await fetch(`${BASE_URL}/data.json`);
+  const data = await fetch(`${API_URL}/data.json`);
   const response: { articles: [] } = await data.json();
   const article: ArticleType[] = response.articles.filter(
     (article: ArticleType) => article.id === id

@@ -1,13 +1,19 @@
 import Image from "next/image";
 import { useState, useEffect, SetStateAction } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { openInvoice, initData } from "@telegram-apps/sdk-react";
+import {
+  init,
+  openTelegramLink,
+  invoice,
+  initData,
+} from "@telegram-apps/sdk-react";
 
 // if setting up the CSS is tricky, you can add this to your page somewhere:
 // <link rel="stylesheet" href="https://unpkg.com/react-spring-bottom-sheet/dist/style.css" crossorigin="anonymous">
 
 import "react-spring-bottom-sheet/dist/style.css";
 import axios from "axios";
+import { API_URL } from "@/url";
 
 const coins = [
   { amount: 300, price: 1.99, star: 100 },
@@ -45,10 +51,13 @@ const CoinSale = ({
         userName: user.username,
       } as User);
     }
+    // Initialize SDK
+    init();
   }, []);
+
   const handleBuy = async (amount: number, star: number, price: number) => {
     const payload = `mini_${Date.now()}_${user?.id}`;
-    const res = axios.post("http://localhost:4000/invoice-link", {
+    const res = axios.post(`${API_URL}/invoice-link`, {
       payload,
       amount: star,
       title: `${amount} coins for $${price}`,
@@ -56,7 +65,11 @@ const CoinSale = ({
     });
     const { invoiceLink } = (await res).data;
     console.log(invoiceLink);
-    openInvoice(invoiceLink, "url");
+    if (invoice.isSupported() && invoice.open.isAvailable()) {
+      await invoice.open(invoiceLink, "url");
+    } else {
+      openTelegramLink(invoiceLink);
+    }
   };
   return (
     <>
