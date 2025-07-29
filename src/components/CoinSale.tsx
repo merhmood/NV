@@ -22,51 +22,43 @@ const coins = [
   { amount: 4000, price: 19.99, star: 1000 },
 ];
 
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  languageCode: string;
-  isPremium: boolean;
-}
-
 const CoinSale = ({
   open,
   setOpen,
+  userID,
 }: {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
+  userID?: number;
 }) => {
-  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const user = initData?.user();
-    if (user) {
-      setUser({
-        firstName: user.first_name,
-        id: user.id,
-        isPremium: user.is_premium,
-        languageCode: user.language_code,
-        lastName: user.last_name,
-        userName: user.username,
-      } as User);
+    if (userID) {
+      // Initialize SDK
+      init();
     }
-    // Initialize SDK
-    init();
-  }, []);
+  }, [userID]);
 
   const handleBuy = async (amount: number, star: number, price: number) => {
-    const payload = `mini_${Date.now()}_${user?.id}`;
+    const payload = `mini_${Date.now()}_${userID}_${amount}`;
     const res = axios.post(`${API_URL}/invoice-link`, {
       payload,
       amount: star,
       title: `${amount} coins for $${price}`,
       description: "Star purchase for Nutt and Vibes app coins",
     });
+
     const { invoiceLink } = (await res).data;
     console.log(invoiceLink);
     if (invoice.isSupported() && invoice.open.isAvailable()) {
-      await invoice.open(invoiceLink, "url");
+      const res = await invoice.open(invoiceLink, "url");
+      if (res !== "success") {
+        alert("Transaction was canceled or failed.");
+        return;
+      }
+      const verification = await axios.post(`${API_URL}/stars/verify`, {
+        userID,
+        transactionId: payload,
+      });
     } else {
       openTelegramLink(invoiceLink);
     }

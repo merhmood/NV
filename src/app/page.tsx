@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { init } from "@telegram-apps/sdk-react";
 import WebApp from "@twa-dev/sdk";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,14 +28,18 @@ export default function Page() {
   const [openCoinSale, setOpenCoinSale] = useState(false);
 
   useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
+    // Initialize SDK
+    init();
+
+    const user = WebApp.initDataUnsafe?.user;
+    if (user) {
       setUser({
-        firstName: WebApp.initDataUnsafe.user.first_name,
-        id: WebApp.initDataUnsafe.user.id,
-        isPremium: WebApp.initDataUnsafe.user.is_premium,
-        languageCode: WebApp.initDataUnsafe.user.language_code,
-        lastName: WebApp.initDataUnsafe.user.last_name,
-        userName: WebApp.initDataUnsafe.user.username,
+        firstName: user.first_name,
+        id: user.id,
+        isPremium: user.is_premium,
+        languageCode: user.language_code,
+        lastName: user.last_name,
+        userName: user.username,
       } as User);
     }
   }, []);
@@ -57,7 +62,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <RewardedAds />
+        <RewardedAds userID={user?.id} />
         <div>
           <button
             onClick={() => setOpenCoinSale(true)}
@@ -74,7 +79,11 @@ export default function Page() {
           <Link href="#">Refund policy</Link>
           <Link href="#">Terms of use</Link>
         </div>
-        <CoinSale open={openCoinSale} setOpen={setOpenCoinSale} />
+        <CoinSale
+          open={openCoinSale}
+          setOpen={setOpenCoinSale}
+          userID={user?.id}
+        />
       </div>
     </main>
   );
