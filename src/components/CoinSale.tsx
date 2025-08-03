@@ -14,21 +14,24 @@ import {
 import "react-spring-bottom-sheet/dist/style.css";
 import axios from "axios";
 import { API_URL } from "@/url";
+import { on } from "events";
 
 const coins = [
-  { amount: 300, price: 1.99, star: 100 },
-  { amount: 800, price: 4.99, star: 250 },
-  { amount: 1600, price: 9.99, star: 500 },
-  { amount: 4000, price: 19.99, star: 1000 },
+  { amount: 500, price: 1.99, star: 100 },
+  { amount: 1250, price: 4.99, star: 250 },
+  { amount: 2750, price: 9.99, star: 500 },
+  { amount: 5500, price: 19.99, star: 1000 },
 ];
 
 const CoinSale = ({
   open,
-  setOpen,
+  onOpenCoinSale,
   userID,
+  onCoinBalance,
 }: {
   open: boolean;
-  setOpen: React.Dispatch<SetStateAction<boolean>>;
+  onOpenCoinSale: React.Dispatch<SetStateAction<boolean>>;
+  onCoinBalance: React.Dispatch<SetStateAction<string>>;
   userID?: number;
 }) => {
   useEffect(() => {
@@ -38,34 +41,46 @@ const CoinSale = ({
     }
   }, [userID]);
 
-  const handleBuy = async (amount: number, star: number, price: number) => {
-    const payload = `mini_${Date.now()}_${userID}_${amount}`;
-    const res = axios.post(`${API_URL}/invoice-link`, {
-      payload,
-      amount: star,
-      title: `${amount} coins for $${price}`,
-      description: "Star purchase for Nutt and Vibes app coins",
-    });
-
-    const { invoiceLink } = (await res).data;
-    console.log(invoiceLink);
-    if (invoice.isSupported() && invoice.open.isAvailable()) {
-      const res = await invoice.open(invoiceLink, "url");
-      if (res !== "success") {
-        alert("Transaction was canceled or failed.");
-        return;
-      }
-      const verification = await axios.post(`${API_URL}/stars/verify`, {
-        userID,
-        transactionId: payload,
+  const handleBuy = async (
+    amount: number,
+    star: number,
+    price: number,
+    userID?: number
+  ) => {
+    try {
+      const payload = `mini_${Date.now()}_${userID}_${amount}`;
+      const res = axios.post(`${API_URL}/invoice-link`, {
+        payload,
+        amount: star,
+        title: `${amount} coins for $${price}`,
+        description: "Star purchase for Nutt and Vibes app coins",
       });
-    } else {
-      openTelegramLink(invoiceLink);
+
+      const { invoiceLink } = (await res).data;
+      console.log(invoiceLink);
+      if (invoice.isSupported() && invoice.open.isAvailable()) {
+        const res = await invoice.open(invoiceLink, "url");
+        if (res == "success") {
+          onCoinBalance((prev) => {
+            const newBalance = parseInt(prev) + amount;
+            return newBalance.toString();
+          });
+          onOpenCoinSale(false);
+          alert("✅ Coins purchased successfully!");
+        } else {
+          alert("❌ Payment was not completed.");
+        }
+      } else {
+        openTelegramLink(invoiceLink);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error during purchase.");
     }
   };
   return (
     <>
-      <BottomSheet onDismiss={() => setOpen(false)} open={open}>
+      <BottomSheet onDismiss={() => onOpenCoinSale(false)} open={open}>
         <div className="text-white">
           <div className="px-4 text-center py-2">
             <h2 className="text-lg font-bold mb-2">Buy Coins</h2>
@@ -80,7 +95,9 @@ const CoinSale = ({
                 key={coin.amount}
                 amount={coin.amount}
                 price={coin.price}
-                onBuy={() => handleBuy(coin.amount, coin.star, coin.price)}
+                onBuy={() =>
+                  handleBuy(coin.amount, coin.star, coin.price, userID)
+                }
               />
             ))}
           </div>
@@ -112,36 +129,5 @@ const CoinSaleButton = ({
     </button>
   );
 };
-
-// const handleBuy = async () => {
-//   try {
-//     const result = await WebApp.openInvoice();
-
-//     if (result.status !== "success") {
-//       alert("Transaction was canceled or failed.");
-//       return;
-//     }
-
-//     const res = await fetch("http://localhost:3001/api/stars/verify", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         initData: WebApp.initData,
-//         transactionId: result.transaction_id,
-//         payload: result.payload,
-//       }),
-//     });
-
-//     const data = await res.json();
-//     if (data.success) {
-//       alert("🎉 Purchase successful and verified!");
-//     } else {
-//       alert("❌ Verification failed.");
-//     }
-//   } catch (err) {
-//     console.error("Payment error:", err);
-//     alert("Error occurred during payment.");
-//   }
-// };
 
 export default CoinSale;

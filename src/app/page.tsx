@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 
 import CoinSale from "@/components/CoinSale";
 import TransactionHistory from "@/components/TransactionHistory";
+import { API_URL } from "@/url";
 
 const RewardedAds = dynamic(() => import("@/components/RewardedAds"), {
   ssr: false,
@@ -26,6 +27,7 @@ interface User {
 export default function Page() {
   const [user, setUser] = useState<User | null>(null);
   const [openCoinSale, setOpenCoinSale] = useState(false);
+  const [coinsBalance, setCoinsBalance] = useState("****");
 
   useEffect(() => {
     // Initialize SDK
@@ -43,6 +45,22 @@ export default function Page() {
       } as User);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchCoinsBalance = async () => {
+      if (user) {
+        try {
+          const response = await fetch(`${API_URL}/get-coins/${user.id}`);
+          const data = await response.json();
+          setCoinsBalance(data.balance);
+        } catch (error) {
+          console.error("Failed to fetch coins balance:", error);
+        }
+      }
+    };
+    fetchCoinsBalance();
+  }, [user]);
+
   return (
     <main className="text-white">
       <div>
@@ -51,9 +69,9 @@ export default function Page() {
         </h1>
         <div className="flex justify-between text-lg border border-[#ac3fa3] p-6 mb-4 rounded-2xl backdrop-blur-md bg-gray-900/20">
           <div>
-            Coin balance:{" "}
+            Coins balance:{" "}
             <span className="text-yellow-400 block text-5xl mt-2 font-medium">
-              1000
+              {coinsBalance}
             </span>
           </div>
           <div className="flex flex-col-reverse">
@@ -62,7 +80,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <RewardedAds userID={user?.id} />
+        <RewardedAds userID={user?.id} onCoinBalance={setCoinsBalance} />
         <div>
           <button
             onClick={() => setOpenCoinSale(true)}
@@ -81,8 +99,9 @@ export default function Page() {
         </div>
         <CoinSale
           open={openCoinSale}
-          setOpen={setOpenCoinSale}
+          onOpenCoinSale={setOpenCoinSale}
           userID={user?.id}
+          onCoinBalance={setCoinsBalance}
         />
       </div>
     </main>
