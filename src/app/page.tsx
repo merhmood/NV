@@ -98,8 +98,8 @@ export default function Page() {
             </span>
           </button>
         </div>
-        <TransactionHistory />
-        <div className="fixed bottom-4 flex text-sm mt-4 gap-4 text-gray-400">
+        <TransactionHistory userId={user?.id} />
+        <div className="flex text-sm mt-4 gap-4 text-gray-400">
           <Link href="#">Refund policy</Link>
           <Link href="#">Terms of use</Link>
         </div>

@@ -27,16 +27,16 @@ export default function TransactionHistory({ userId }: { userId?: number }) {
       .finally(() => setLoading(false));
   }, [userId]);
 
-  if (loading) return <p>Loading transactions...</p>;
+  if (loading) return <p className="mt-4">Loading transactions...</p>;
 
   if (!transactions.length) {
-    return <p>No transactions yet</p>;
+    return <p className="mt-4">No transactions yet</p>;
   }
 
   return (
-    <div className="mt-6 bg-gray-900 p-4 rounded-lg">
+    <div className="mt-4 bg-black/75 backdrop-blur-md p-4 rounded-lg">
       <h2 className="text-lg font-bold mb-3">Transaction History</h2>
-      <ul className="space-y-3 max-h-[calc(100vh-500px)] overflow-y-auto">
+      <ul className="space-y-3 max-h-[13vh] overflow-y-auto">
         {transactions.map((tx, i) => (
           <li
             key={i}
@@ -48,7 +48,7 @@ export default function TransactionHistory({ userId }: { userId?: number }) {
                 {new Date(tx.date).toLocaleString()}
               </p>
             </div>
-            <p className={tx.amount > 0 ? "text-green-400" : "text-red-400"}>
+            <p className={tx.amount > 0 ? "text-yellow-400" : "text-red-400"}>
               {tx.amount > 0 ? "+" : ""}
               {tx.amount} coins
             </p>
