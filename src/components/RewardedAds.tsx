@@ -12,12 +12,18 @@ import {
 const showAd = createAdHandler(9607234);
 
 const RewardedAds: React.FC<{
+  adCount: number;
   userID?: number;
   onCoinBalance: React.Dispatch<SetStateAction<string>>;
-}> = ({ userID, onCoinBalance }) => {
+}> = ({ userID, adCount, onCoinBalance }) => {
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const [adCount, setAdCount] = useState(0);
+  const [adCounter, setAdCounter] = useState(0);
+
+  // Initialize ad counter from props
+  useEffect(() => {
+    setAdCounter(adCount);
+  }, [adCount]);
 
   // Poll cooldown every second
   useEffect(() => {
@@ -44,7 +50,7 @@ const RewardedAds: React.FC<{
         await showAd();
 
         await updateCooldown(); // save timestamp
-        setAdCount(res.data.totalViews);
+        setAdCounter(res.data.totalViews);
         setCooldown(COOLDOWN_SECONDS);
         onCoinBalance(res.data.coins);
       } else {
@@ -64,7 +70,7 @@ const RewardedAds: React.FC<{
       if (userID) {
         try {
           const response = await axios.get(`${API_URL}/ad-status/${userID}`);
-          setAdCount(
+          setAdCounter(
             response.data.viewsLeft ? 10 - response.data.viewsLeft : 0
           );
         } catch {}
@@ -78,7 +84,7 @@ const RewardedAds: React.FC<{
         Earn <span className="font-bold text-yellow-400">10</span> coins
       </h2>
       <p className="text-sm">
-        <span className="font-bold">{adCount}/10</span> ads viewed today
+        <span className="font-bold">{adCounter}/10</span> ads viewed today
       </p>
       <button
         onClick={handleAd}

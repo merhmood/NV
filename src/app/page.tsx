@@ -28,6 +28,7 @@ export default function Page() {
   const [user, setUser] = useState<User | null>(null);
   const [openCoinSale, setOpenCoinSale] = useState(false);
   const [coinsBalance, setCoinsBalance] = useState("****");
+  const [adCount, setAdCount] = useState(0);
 
   useEffect(() => {
     // Initialize SDK
@@ -53,6 +54,7 @@ export default function Page() {
           const response = await fetch(`${API_URL}/get-coins/${user.id}`);
           const data = await response.json();
           setCoinsBalance(data.balance);
+          setAdCount(data.view || 0);
         } catch (error) {
           console.error("Failed to fetch coins balance:", error);
         }
@@ -80,7 +82,11 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <RewardedAds userID={user?.id} onCoinBalance={setCoinsBalance} />
+        <RewardedAds
+          userID={user?.id}
+          adCount={adCount}
+          onCoinBalance={setCoinsBalance}
+        />
         <div>
           <button
             onClick={() => setOpenCoinSale(true)}
