@@ -27,11 +27,11 @@ const CoinSale = ({
   open,
   onOpenCoinSale,
   userID,
-  onCoinBalance,
+  onCoinsBalance,
 }: {
   open: boolean;
   onOpenCoinSale: React.Dispatch<SetStateAction<boolean>>;
-  onCoinBalance: React.Dispatch<SetStateAction<string>>;
+  onCoinsBalance: React.Dispatch<SetStateAction<string>>;
   userID?: number;
 }) => {
   useEffect(() => {
@@ -61,7 +61,7 @@ const CoinSale = ({
       if (invoice.isSupported() && invoice.open.isAvailable()) {
         const res = await invoice.open(invoiceLink, "url");
         if (res == "success") {
-          onCoinBalance((prev) => {
+          onCoinsBalance((prev) => {
             const newBalance = parseInt(prev) + amount;
             return newBalance.toString();
           });
