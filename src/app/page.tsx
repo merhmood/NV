@@ -85,7 +85,7 @@ export default function Page() {
         <RewardedAds
           userID={user?.id}
           adCount={adCount}
-          onCoinBalance={setCoinsBalance}
+          onCoinsBalance={setCoinsBalance}
         />
         <div>
           <button
@@ -98,7 +98,7 @@ export default function Page() {
             </span>
           </button>
         </div>
-        <TransactionHistory userId={user?.id} />
+        <TransactionHistory userId={user?.id} coinsBalance={coinsBalance} />
         <div className="flex text-sm mt-4 gap-4 text-gray-400">
           <Link href="#">Refund policy</Link>
           <Link href="#">Terms of use</Link>
@@ -107,7 +107,7 @@ export default function Page() {
           open={openCoinSale}
           onOpenCoinSale={setOpenCoinSale}
           userID={user?.id}
-          onCoinBalance={setCoinsBalance}
+          onCoinsBalance={setCoinsBalance}
         />
       </div>
     </main>

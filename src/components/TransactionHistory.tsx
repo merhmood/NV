@@ -10,7 +10,13 @@ interface Transaction {
   date: string;
 }
 
-export default function TransactionHistory({ userId }: { userId?: number }) {
+export default function TransactionHistory({
+  userId,
+  coinsBalance,
+}: {
+  userId?: number;
+  coinsBalance: string;
+}) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +31,7 @@ export default function TransactionHistory({ userId }: { userId?: number }) {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [userId]);
+  }, [userId, coinsBalance]);
 
   if (loading) return <p className="mt-4">Loading transactions...</p>;
 

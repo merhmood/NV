@@ -14,8 +14,8 @@ const showAd = createAdHandler(9607234);
 const RewardedAds: React.FC<{
   adCount: number;
   userID?: number;
-  onCoinBalance: React.Dispatch<SetStateAction<string>>;
-}> = ({ userID, adCount, onCoinBalance }) => {
+  onCoinsBalance: React.Dispatch<SetStateAction<string>>;
+}> = ({ userID, adCount, onCoinsBalance }) => {
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const [adCounter, setAdCounter] = useState(0);
@@ -52,7 +52,7 @@ const RewardedAds: React.FC<{
         await updateCooldown(); // save timestamp
         setAdCounter(res.data.totalViews);
         setCooldown(COOLDOWN_SECONDS);
-        onCoinBalance(res.data.coins);
+        onCoinsBalance(res.data.coins);
       } else {
         alert("🎯 You’ve reached your daily limit of 10 ads.");
       }
